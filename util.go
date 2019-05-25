@@ -60,12 +60,14 @@ func (sw *Sweeper) Next() (image RawImage, label Label, present bool) {
 	if sw.i >= len(sw.set.Images) {
 		return nil, 0, false
 	}
-	return sw.set.Images[sw.i], sw.set.Labels[sw.i], true
+	i := sw.i
+	sw.i = sw.i + 1
+	return sw.set.Images[i], sw.set.Labels[i], true
 }
 
 // Sweep creates a new sweep iterator over the data set
 func (s *Set) Sweep() *Sweeper {
-	return &Sweeper{set: s}
+	return &Sweeper{set: s, i: 0}
 }
 
 // Load reads both the training and the testing MNIST data sets, given
